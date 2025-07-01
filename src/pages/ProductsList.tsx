@@ -1,21 +1,25 @@
-import { Card } from '../components/Card'
+import { Card } from "../components/Card";
+import SearchBar from "../components/SearchBar";
 
 type ProductsListProps = {
-  items:{
+  items: {
     id: number;
-  title: string;
-  price: number;
-  description: string;
-  images: string[];
-  }[]
-  
-}
+    title: string;
+    price: number;
+    description: string;
+    images: string[];
+  }[];
+};
 
-const ProductsList = ({items}: ProductsListProps) => {
+const ProductsList = ({ items }: ProductsListProps) => {
   return (
     <div>
-      <h1>Products list</h1>
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center w-auto h-auto">
+      <div className="flex m-3 pt-2">
+        <h1 className="text-3xl text-center font-sans">Products list</h1>
+        <SearchBar />
+      </div>
+
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center w-full h-auto">
         {items.map((item) => (
           <>
             <li key={item.id}>
@@ -25,7 +29,7 @@ const ProductsList = ({items}: ProductsListProps) => {
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default ProductsList
+export default ProductsList;

@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { Card } from "./components/Card";
 import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import ProductsList from "./pages/ProductsList";
 import Navbar from "./components/Navbar";
-import SearchBar from "./components/SearchBar";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
 
@@ -27,7 +25,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <SearchBar />
+      
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products">
