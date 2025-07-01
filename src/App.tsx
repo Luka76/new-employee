@@ -23,18 +23,17 @@ function App() {
   }, []);
 
   return (
-    <>
+    <main>
       <Navbar />
-      
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products">
-          <Route index element={<ProductsList items={items}/>} />
+          <Route index element={<ProductsList items={items} />} />
           <Route path=":id" element={<Product />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </main>
   );
 }
 
