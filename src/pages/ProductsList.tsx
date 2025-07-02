@@ -2,59 +2,104 @@ import { Card } from "../components/Card";
 import SearchBar from "../components/SearchBar";
 import { useState, useEffect } from "react";
 
+type Product = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  images: string[];
+};
+
 const ProductsList = () => {
-  const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [items, setItems] = useState<Product[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("https://dummyjson.com/products");
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
 
-      const json = await response.json();
+        const response = await fetch("https://dummyjson.com/products");
 
-      // console.log(json.products);
-      setItems(json.products);
+        if (!response.ok) {
+          throw new Error(`Something went wrong! status: ${response.status}`);
+        }
+
+        const json = await response.json();
+        setItems(json.products);
+      } catch (error) {
+        setError(
+          error instanceof Error
+            ? error.message
+            : "An error occured while fetching products"
+        );
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchData();
+    fetchProducts();
   }, []);
 
   function handleSearch(word: string) {
     setSearchTerm(word);
   }
 
-  const filteredItems = items.filter((item) => {
+  const filteredItems = items.filter((item: Product) => {
     if (searchTerm === "") {
       return item;
     } else {
-      return item.includes(searchTerm);
+      return item.title.toLowerCase().includes(searchTerm);
+      //?? item.description.toLowerCase().includes(searchTerm)
+      //?? item.category.toLowerCase().includes(searchTerm);
     }
   });
 
   return (
     <div>
       <div className="flex m-3 pt-2">
-        <h1 className="text-3xl text-center font-sans">Products list</h1>
+        <h1 className="text-3xl text-center font-sans max-sm:hidden">
+          Products list
+        </h1>
         <SearchBar onSearch={handleSearch} />
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center w-full h-auto">
-        {filteredItems.length > 1
-          ? filteredItems.map((item) => (
+      {loading && (
+        <div className="flex justify-center items-center h-32">
+          <p className="text-lg">Loading products...</p>
+        </div>
+      )}
+
+      {error && (
+        <div className="flex justify-center items-center h-32">
+          <p className="text-lg">Something went wrong...</p>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center w-full h-auto">
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item: Product) => (
               <>
                 <li key={item.id}>
                   <Card {...item} />
                 </li>
               </>
             ))
-          : items.map((item) => (
-              <>
-                <li key={item.id}>
-                  <Card {...item} />
-                </li>
-              </>
-            ))}
-      </ul>
+          ) : (
+            <div className="flex col-span-full justify-center items-center h-32">
+              <p className="text-lg text-gray-500">
+                {searchTerm
+                  ? `No products matching ${searchTerm}`
+                  : "No products available"}
+              </p>
+            </div>
+          )}
+        </ul>
+      )}
     </div>
   );
 };
