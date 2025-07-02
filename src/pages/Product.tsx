@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 
-type Product = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  images: string[];
-  returnPolicy: string;
-  stock: number;
-  rating: number;
-};
+import type { Product } from "../types/types";
 
-const Product = () => {
+const ProductPage = () => {
   const { id } = useParams();
-  const [error, setError] = useState<string | null>(null);
   const [item, setItem] = useState<Product>();
 
   useEffect(() => {
@@ -29,17 +18,14 @@ const Product = () => {
         const json = await response.json();
         setItem(json);
       } catch (error) {
-        setError(
-          error instanceof Error ? error.message : "Something went wrong"
-        );
+        throw new Error("something went wrong! ");
       }
-      
     };
-
+    
     fetchItem();
   }, [id]);
 
-  if (error || !item) return <div>Nothing found</div>;
+  if (!item) return <div>Nothing found</div>;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
@@ -56,14 +42,13 @@ const Product = () => {
         <p className="text-gray-700 mb-4">{item.description}</p>
         <div className="flex justify-between items-center">
           <div className="flex flex-wrap gap-2">
-            {item.images.map((imgUrl, index ) => (
+            {item.images.map((imgUrl, index) => (
               <span className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-lg">
                 <img
                   key={index}
                   src={imgUrl}
                   alt={`${item.title} ${index + 1}`}
                   className="w-[100px] h-[100px] object-cover"
-                  
                 />
               </span>
             ))}
@@ -102,4 +87,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default ProductPage;

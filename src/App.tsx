@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import ProductsList from "./pages/ProductsList";
 import Navbar from "./components/Navbar";
-import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
+import ProductPage from "./pages/Product";
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/products">
           <Route index element={<ProductsList />} />
-          <Route path=":id" element={<Product />} />
+          <Route path=":id" element={<ProductPage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

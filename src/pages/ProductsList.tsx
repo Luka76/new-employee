@@ -1,53 +1,18 @@
 import { Card } from "../components/Card";
 import SearchBar from "../components/SearchBar";
-import { useState, useEffect, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import ReactPaginate from "react-paginate";
-
-type Product = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  images: string[];
-};
+import type {  Product } from "../types/types";
+import { useProducts } from "../hooks/useProducts";
 
 const ProductsList = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [items, setItems] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
+  const {items, loading, error} = useProducts();
+
   const pageCount = Math.ceil(items.length / itemsPerPage);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-
-        const response = await fetch("https://dummyjson.com/products");
-
-        if (!response.ok) {
-          throw new Error(`Something went wrong! status: ${response.status}`);
-        }
-
-        const json = await response.json();
-        setItems(json.products);
-      } catch (error) {
-        setError(
-          error instanceof Error
-            ? error.message
-            : "An error occured while fetching products"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   function handleSearch(word: string) {
     setSearchTerm(word);

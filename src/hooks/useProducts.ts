@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-
-type Product = {
-  id: number;
-  description: string;
-  title: string;
-  price: number;
-  images: string[];
-};
+import type {Product} from '../types/types'
 
 export function useProducts() {
   const [error, setError] = useState<string | null>(null);
