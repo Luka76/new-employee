@@ -1,8 +1,8 @@
 import { Card } from "../components/Card";
 import SearchBar from "../components/SearchBar";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import ReactPaginate from "react-paginate";
-import type {  Product } from "../types/types";
+import type { Product } from "../types/types";
 import { useProducts } from "../hooks/useProducts";
 
 const ProductsList = () => {
@@ -10,7 +10,7 @@ const ProductsList = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
-  const {items, loading, error} = useProducts();
+  const { items, loading, error } = useProducts();
 
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
@@ -20,7 +20,17 @@ const ProductsList = () => {
 
   function handlePageChange(selectedPage: { selected: number }) {
     setCurrentPage(selectedPage.selected);
+    localStorage.setItem('currentPage', selectedPage.selected.toString());
   }
+
+  
+
+  useEffect(() => {
+    const savedPage = localStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage));
+    }
+  }, []);
 
   function handleItemsNumberChange(event: ChangeEvent<HTMLSelectElement>) {
     setItemsPerPage(parseInt(event.target.value, 10));
@@ -110,8 +120,8 @@ const ProductsList = () => {
           nextClassName={pageCssClass}
           pageClassName={pageCssClass}
           disabledClassName="cursor-not-allowed bg-gray-300 text-gray-500"
+          forcePage={currentPage}
         />
-        
       </div>
     </div>
   );
