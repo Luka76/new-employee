@@ -16,7 +16,7 @@ export const Card = ({ id, title, description, price, images }: CardProps) => {
   }
 
   return (
-    <div className="rounded-sm  p-2 hover:cursor-pointer h-auto hover:scale-102 transform transition-transform duration-200">
+    <div className="rounded-sm shadow-2xl p-2 hover:cursor-pointer h-auto hover:scale-102 transform transition-transform duration-200">
       <h1
         onClick={handleNavigation}
         className="text-xl font-semibold cursor-pointer hover:underline m-3"
@@ -31,8 +31,8 @@ export const Card = ({ id, title, description, price, images }: CardProps) => {
           className="w-full h-48 object-contain rounded-xl cursor-pointer"
         />
       </div>
-      <div className="flex justify-between">
-        <p className="m-1.5">{description}</p>
+      <div className="flex justify-between w-auto">
+        <p className="m-1.5 ">{description}</p>
         <h2 className="m-1.5 font-bold">${price}</h2>
       </div>
     </div>

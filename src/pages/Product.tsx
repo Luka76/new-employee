@@ -43,20 +43,20 @@ const Product = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white border border-[#ccc] rounded-xl shadow-md p-6 max-w-[600px] w-full">
-        <h2 className="text-xl font-semibold mb-4">{item.title}</h2>
+      <div className="bg-white border border-[#ccc] rounded-xl shadow-md p-6 max-w-[800px] w-full">
+        <h2 className="text-2xl font-semibold mb-4">{item.title}</h2>
 
         <img
           key={item.id}
           src={item.images[0]}
           alt={item.title}
-          className="w-full h-[300px] object-contain rounded-md mb-4"
+          className="w-full h-[400px] object-contain rounded-md mb-4"
         />
 
         <p className="text-gray-700 mb-4">{item.description}</p>
         <div className="flex justify-between items-center">
           <div className="flex flex-wrap gap-2">
-            {item.images.map((imgUrl, index) => (
+            {item.images.map((imgUrl, index ) => (
               <span className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-lg">
                 <img
                   key={index}

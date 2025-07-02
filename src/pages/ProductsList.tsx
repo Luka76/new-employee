@@ -18,7 +18,7 @@ const ProductsList = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(9);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
@@ -92,7 +92,7 @@ const ProductsList = () => {
             className="px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={handleItemsNumberChange}
           >
-            <option value="9">9</option>
+            <option value="10">10</option>
             <option value="15">15</option>
             <option value="21">21</option>
           </select>
@@ -112,7 +112,7 @@ const ProductsList = () => {
       )}
 
       {!loading && !error && (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center w-full h-auto">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-center w-full h-auto">
           {currentItems.length > 0 ? (
             currentItems.map((item: Product) => (
               <>
