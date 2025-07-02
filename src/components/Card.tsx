@@ -33,7 +33,7 @@ export const Card = ({ id, title, description, price, images }: CardProps) => {
       </div>
       <div className="flex justify-between">
         <p className="m-1.5">{description}</p>
-        <h2 className="m-1.5">${price}</h2>
+        <h2 className="m-1.5 font-bold">${price}</h2>
       </div>
     </div>
   );

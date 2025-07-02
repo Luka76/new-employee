@@ -1,6 +1,7 @@
 import { Card } from "../components/Card";
 import SearchBar from "../components/SearchBar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ChangeEvent } from "react";
+import ReactPaginate from "react-paginate";
 
 type Product = {
   id: number;
@@ -16,6 +17,10 @@ const ProductsList = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(9);
+
+  const pageCount = Math.ceil(items.length / itemsPerPage);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,6 +53,14 @@ const ProductsList = () => {
     setSearchTerm(word);
   }
 
+  function handlePageChange(selectedPage: { selected: number }) {
+    setCurrentPage(selectedPage.selected);
+  }
+
+  function handleItemsNumberChange(event: ChangeEvent<HTMLSelectElement>) {
+    setItemsPerPage(parseInt(event.target.value, 10));
+  }
+
   const filteredItems = items.filter((item: Product) => {
     if (searchTerm === "") {
       return item;
@@ -56,13 +69,34 @@ const ProductsList = () => {
     }
   });
 
+  const currentItems = filteredItems.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
+  const pageCssClass =
+    "px-4 py-2 bg-gray-200 border rounded-lg text-gray-700 hover:bg-blue-300 transition-colors duration-150";
+
   return (
-    <div>
+    <div className="relative w-5/6 m-auto">
       <div className="flex m-3 pt-2">
         <h1 className="text-3xl text-center font-sans max-sm:hidden">
           Products list
         </h1>
         <SearchBar onSearch={handleSearch} />
+        <div className="flex flex-row justify-center items-center gap-2 mr-5">
+          <p className="text-xl max-sm:hidden ">Items:</p>
+          <select
+            name="pageItems"
+            id="pageItems"
+            className="px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handleItemsNumberChange}
+          >
+            <option value="9">9</option>
+            <option value="15">15</option>
+            <option value="21">21</option>
+          </select>
+        </div>
       </div>
 
       {loading && (
@@ -79,8 +113,8 @@ const ProductsList = () => {
 
       {!loading && !error && (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center w-full h-auto">
-          {filteredItems.length > 0 ? (
-            filteredItems.map((item: Product) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((item: Product) => (
               <>
                 <li key={item.id}>
                   <Card {...item} />
@@ -98,6 +132,22 @@ const ProductsList = () => {
           )}
         </ul>
       )}
+      <div className="flex justify-center items-center mb-4 mt-4 ">
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          containerClassName="flex space-x-2"
+          activeClassName="bg-blue-500 text-white font-bold"
+          previousClassName={pageCssClass}
+          nextClassName={pageCssClass}
+          pageClassName={pageCssClass}
+          disabledClassName="cursor-not-allowed bg-gray-300 text-gray-500"
+        />
+        
+      </div>
     </div>
   );
 };
