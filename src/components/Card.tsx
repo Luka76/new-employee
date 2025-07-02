@@ -16,7 +16,7 @@ export const Card = ({ id, title, description, price, images }: CardProps) => {
   }
 
   return (
-    <div className="border-solid rounded-sm border-black p-2 hover:cursor-pointer h-auto hover:scale-102">
+    <div className="rounded-sm  p-2 hover:cursor-pointer h-auto hover:scale-102 transform transition-transform duration-200">
       <h1
         onClick={handleNavigation}
         className="text-xl font-semibold cursor-pointer hover:underline m-3"

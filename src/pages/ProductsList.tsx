@@ -53,8 +53,6 @@ const ProductsList = () => {
       return item;
     } else {
       return item.title.toLowerCase().includes(searchTerm);
-      //?? item.description.toLowerCase().includes(searchTerm)
-      //?? item.category.toLowerCase().includes(searchTerm);
     }
   });
 

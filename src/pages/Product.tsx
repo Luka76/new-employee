@@ -16,7 +16,6 @@ type Product = {
 const Product = () => {
   const { id } = useParams();
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [item, setItem] = useState<Product>();
 
   useEffect(() => {
@@ -33,9 +32,8 @@ const Product = () => {
         setError(
           error instanceof Error ? error.message : "Something went wrong"
         );
-      } finally {
-        setLoading(false);
       }
+      
     };
 
     fetchItem();
