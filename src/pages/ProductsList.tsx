@@ -85,7 +85,7 @@ const ProductsList = () => {
       )}
 
       {!loading && !error && (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-center w-full h-auto">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-start w-full h-screen">
           {currentItems.length > 0 ? (
             currentItems.map((item: Product) => (
               <>
