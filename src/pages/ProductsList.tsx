@@ -20,6 +20,7 @@ const ProductsList = () => {
 
   function handlePageChange(selectedPage: { selected: number }) {
     setCurrentPage(selectedPage.selected);
+    setSearchTerm('')
     localStorage.setItem("currentPage", selectedPage.selected.toString());
   }
 
@@ -49,9 +50,9 @@ const ProductsList = () => {
 
   const pageCssClass =
     "block p-4 bg-gray-200 border rounded-lg text-gray-700 hover:bg-blue-300 hover:cursor-pointer transition-colors duration-150";
-    "block px-4 py-2 bg-white rounded-md border border-gray-300  text-gray-700 hover:bg-blue-100 hover:text-blue-600 cursor-pointer transition"
+  ("block px-4 py-2 bg-white rounded-md border border-gray-300  text-gray-700 hover:bg-blue-100 hover:text-blue-600 cursor-pointer transition");
   return (
-    <div className="flex flex-col w-5/6 m-auto">
+    <div className="relative w-5/6 mx-auto">
       <div className="flex m-3 pt-2">
         <h1 className="text-3xl text-center font-sans max-sm:hidden">
           Products list
@@ -85,8 +86,26 @@ const ProductsList = () => {
       )}
 
       {!loading && !error && (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-start w-full h-auto">
-          {currentItems.length > 0 ? (
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-center w-full h-auto">
+          {searchTerm.length > 0 ? (
+            filteredItems.length > 0 ? (
+              filteredItems.map((item: Product) => (
+                <>
+                  <li key={item.id}>
+                    <Card {...item} />
+                  </li>
+                </>
+              ))
+            ) : (
+              <div className="flex col-span-full justify-center items-center h-32">
+                <p className="text-lg text-gray-500">
+                  {searchTerm
+                    ? `No products matching ${searchTerm}`
+                    : "No products available"}
+                </p>
+              </div>
+            )
+          ) : (
             currentItems.map((item: Product) => (
               <>
                 <li key={item.id}>
@@ -94,14 +113,6 @@ const ProductsList = () => {
                 </li>
               </>
             ))
-          ) : (
-            <div className="flex col-span-full justify-center items-center h-32">
-              <p className="text-lg text-gray-500">
-                {searchTerm
-                  ? `No products matching ${searchTerm}`
-                  : "No products available"}
-              </p>
-            </div>
           )}
         </ul>
       )}
