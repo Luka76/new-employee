@@ -16,10 +16,10 @@ export const Card = ({ id, title, description, price, images }: CardProps) => {
   }
 
   return (
-    <div className="rounded-sm shadow-2xl p-2 hover:cursor-pointer h-auto hover:scale-102 transform transition-transform duration-200">
+    <div className="flex flex-col rounded-sm shadow-2xl p-2 hover:cursor-pointer h-[400px] hover:scale-102 transform transition-transform duration-200">
       <h1
         onClick={handleNavigation}
-        className="text-xl font-semibold cursor-pointer hover:underline m-3"
+        className="text-xl font-semibold cursor-pointer hover:underline m-3 min-h-[3rem]"
       >
         {title}
       </h1>
@@ -32,7 +32,7 @@ export const Card = ({ id, title, description, price, images }: CardProps) => {
         />
       </div>
       <div className="flex justify-between w-auto">
-        <p className="m-1.5 ">{description}</p>
+        <p className="m-1.5 line-clamp-4">{description}</p>
         <h2 className="m-1.5 font-bold">${price}</h2>
       </div>
     </div>
