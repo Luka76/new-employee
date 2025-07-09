@@ -6,6 +6,7 @@ import type { Product } from "../types/types";
 const ProductPage = () => {
   const { id } = useParams();
   const [item, setItem] = useState<Product>();
+  const [mainPic, setMainPic] = useState(0);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -21,7 +22,7 @@ const ProductPage = () => {
         throw new Error("something went wrong! ");
       }
     };
-    
+
     fetchItem();
   }, [id]);
 
@@ -31,24 +32,26 @@ const ProductPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white border border-[#ccc] rounded-xl shadow-md p-6 max-w-[800px] w-full">
         <h2 className="text-2xl font-semibold mb-4">{item.title}</h2>
-
-        <img
-          key={item.id}
-          src={item.images[0]}
-          alt={item.title}
-          className="w-full h-[400px] object-contain rounded-md mb-4"
-        />
+        <div className="relative overflow-hidden h-[400px] mb-4 ">
+          <img
+            key={item.id}
+            src={item.images[mainPic]}
+            alt={item.title}
+            className="w-full h-full object-contain rounded-md hover:scale-120 duration-150 transition-transform"
+          />
+        </div>
 
         <p className="text-gray-700 mb-4">{item.description}</p>
         <div className="flex justify-between items-center">
           <div className="flex flex-wrap gap-2">
             {item.images.map((imgUrl, index) => (
-              <span className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-lg">
+              <span className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-lg hover:cursor-pointer hover:scale-105">
                 <img
                   key={index}
                   src={imgUrl}
                   alt={`${item.title} ${index + 1}`}
-                  className="w-[100px] h-[100px] object-cover"
+                  className="w-[100px] h-[100px] object-cover "
+                  onClick={() => setMainPic(index)}
                 />
               </span>
             ))}
