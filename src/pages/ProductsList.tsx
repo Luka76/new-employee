@@ -20,10 +20,8 @@ const ProductsList = () => {
 
   function handlePageChange(selectedPage: { selected: number }) {
     setCurrentPage(selectedPage.selected);
-    localStorage.setItem('currentPage', selectedPage.selected.toString());
+    localStorage.setItem("currentPage", selectedPage.selected.toString());
   }
-
-  
 
   useEffect(() => {
     const savedPage = localStorage.getItem("currentPage");
@@ -50,8 +48,8 @@ const ProductsList = () => {
   );
 
   const pageCssClass =
-    "px-4 py-2 bg-gray-200 border rounded-lg text-gray-700 hover:bg-blue-300 transition-colors duration-150";
-
+    "block p-4 bg-gray-200 border rounded-lg text-gray-700 hover:bg-blue-300 hover:cursor-pointer transition-colors duration-150";
+    "block px-4 py-2 bg-white rounded-md border border-gray-300  text-gray-700 hover:bg-blue-100 hover:text-blue-600 cursor-pointer transition"
   return (
     <div className="relative w-5/6 m-auto">
       <div className="flex m-3 pt-2">
@@ -114,12 +112,17 @@ const ProductsList = () => {
           breakLabel={"..."}
           pageCount={pageCount}
           onPageChange={handlePageChange}
-          containerClassName="flex space-x-2"
-          activeClassName="bg-blue-500 text-white font-bold"
-          previousClassName={pageCssClass}
-          nextClassName={pageCssClass}
-          pageClassName={pageCssClass}
-          disabledClassName="cursor-not-allowed bg-gray-300 text-gray-500"
+          containerClassName="flex items-center justify-center space-x-2 my-4"
+          pageClassName="group"
+          pageLinkClassName={pageCssClass}
+          previousClassName="group"
+          previousLinkClassName={pageCssClass}
+          nextClassName="group"
+          nextLinkClassName={pageCssClass}
+          breakClassName="group"
+          breakLinkClassName="block px-4 py-2 text-gray-500"
+          activeLinkClassName="bg-blue-500 text-white hover:bg-blue-600"
+          disabledClassName="hover:cursor-not-allowed"
           forcePage={currentPage}
         />
       </div>

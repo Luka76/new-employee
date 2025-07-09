@@ -8,7 +8,7 @@ import ProductPage from "./pages/Product";
 function App() {
 
   return (
-    <main>
+    <main className="h-screen flex flex-col">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />

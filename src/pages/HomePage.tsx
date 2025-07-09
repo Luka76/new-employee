@@ -2,7 +2,7 @@ import { Link } from "react-router";
 const HomePage = () => {
   return (
     <div
-      className="h-screen w-screen overflow-hidden bg-cover bg-center flex items-center justify-center"
+      className="flex-1 w-screen overflow-hidden bg-cover bg-center flex items-center justify-center"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80')",
